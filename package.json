@@ -4,18 +4,24 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts",
+    "start": "node dist/server.js",
+    "dev": "ts-node src/server.ts",
     "build": "tsc"
   },
   "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.2",
+    "babel-loader": "^9.2.1",
     "husky": "^9.1.7",
     "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
   },
   "dependencies": {
+    "@stripe/connect-js": "^3.3.19",
     "express": "^4.21.2",
     "stripe": "^16.5.0"
   }

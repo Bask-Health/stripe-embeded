@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Connect embedded components</title>
+    <meta
+      name="description"
+      content="A demo of Stripe Connect embedded components"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- <script type="module" src="index.js" defer></script> -->
+    <script type="module" src="bundle.js" defer></script>
+  </head>
+  <body>
+    <div id="navigation">
+      <a href="#" data-component="account-onboarding">Account Onboarding</a>
+      <a href="#" data-component="payments">Payments</a>
+      <a href="#" data-component="payouts">Payouts</a>
+    </div>
+    <div id="main">
+      <div id="container"></div>
+      <div id="error" hidden>Something went wrong!</div>
+    </div>
+  </body>
+</html>

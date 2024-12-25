@@ -1,9 +1,12 @@
 import express, { Request, Response } from "express";
 import Stripe from "stripe";
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
-const stripe = new Stripe('sk', {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
     apiVersion: '2024-06-20', 
   });
 
@@ -14,15 +17,19 @@ app.use(express.json());
 app.post('/account_session', async (req: Request, res: Response) => {
   try {
     const accountSession = await stripe.accountSessions.create({
-      account: "acct", // Replace with your connected account ID
+      account: process.env.STRIPE_ACCOUNT || '', // Replace with your connected account ID
       components: {
+        account_onboarding: {
+          enabled: true,
+        },
         payments: {
           enabled: true,
-          features: {
-            refund_management: true,
-            dispute_management: true,
-            capture_payments: true,
-          },
+        },
+        payouts: {
+          enabled: true,
+        },
+        balances: {
+          enabled: true,
         },
       },
     });

@@ -18,3 +18,7 @@ Thumbs.db
 # Yarn specific
 .yarn/
 yarn-error.log
+
+accounts.txt
+
+.env

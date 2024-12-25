@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "ts-node src/server.ts",
-    "build": "tsc"
+    "dev": "rm dist/server.js & npx webpack & cp public/style.css dist/style.css & cp public/index.html dist/index.html & ts-node src/server.ts",
+    "build": "npx webpack & cp public/style.css dist/style.css & cp public/index.html dist/index.html & tsc"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@stripe/connect-js": "^3.3.19",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "stripe": "^16.5.0"
   }

@@ -1,12 +1,22 @@
 {
-  "name": "stripe-project",
+  "name": "stripe-embeded",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "engines": {
+    "node": ">=23.5.0 <24"
+  },
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "rm dist/server.js & npx webpack & cp public/style.css dist/style.css & cp public/index.html dist/index.html & ts-node src/server.ts",
-    "build": "npx webpack & cp public/style.css dist/style.css & cp public/index.html dist/index.html & tsc"
+    "dev": "yarn clean && yarn webpack && yarn copy-assets && ts-node src/server.ts",
+    "build": "yarn clean && yarn webpack && yarn compile && yarn copy-assets",
+    "clean": "rimraf dist",
+    "webpack": "npx webpack",
+    "compile": "tsc",
+    "copy-assets": "mkdirp dist && cp public/style.css dist/style.css && cp public/index.html dist/index.html",
+    "prebuild": "yarn clean",
+    "postbuild": "yarn copy-assets",
+    "postinstall": "yarn build"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -15,6 +25,8 @@
     "@types/node": "^22.10.2",
     "babel-loader": "^9.2.1",
     "husky": "^9.1.7",
+    "mkdirp": "^3.0.1",
+    "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
     "webpack": "^5.97.1",

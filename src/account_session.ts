@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2024-06-20",
 });
 
-export default async function handler(req: Request){  
+export default async function handler(req: any, res: any) {
   try {
     const accountSession = await stripe.accountSessions.create({
       account: process.env.STRIPE_ACCOUNT || "", // Replace with your connected account ID
@@ -33,7 +33,7 @@ export default async function handler(req: Request){
       },
     });
 
-    return Response.json({
+    res.json({
       client_secret: accountSession.client_secret,
     });
   } catch (error: any) {
@@ -42,7 +42,6 @@ export default async function handler(req: Request){
       "An error occurred when calling the Stripe API to create an account session",
       error
     );
-
-    return Response.json({ error: error.message }, { status: 500 });
+    res.status(500).send({ error: error.message });
   }
 }

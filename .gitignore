@@ -22,3 +22,4 @@ yarn-error.log
 accounts.txt
 
 .env
+.vercel

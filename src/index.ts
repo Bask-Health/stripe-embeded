@@ -52,7 +52,7 @@ app.post('/account_session', async (req: Request, res: Response) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 4242;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () =>
   console.log(`Node server listening on port ${PORT}! Visit http://localhost:${PORT} in your browser.`)

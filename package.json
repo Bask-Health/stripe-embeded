@@ -7,8 +7,7 @@
     "node": ">=22 <23"
   },
   "scripts": {
-    "start": "node api/index.js",
-    "dev": "yarn clean && yarn webpack && yarn copy-assets && ts-node src/index.ts",
+    "dev": "yarn clean && yarn webpack && yarn copy-assets && yarn tsc && vercel dev",
     "build": "yarn clean && yarn webpack && yarn compile && yarn copy-assets",
     "clean": "rimraf dist",
     "webpack": "npx webpack",

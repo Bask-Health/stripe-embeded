@@ -30,6 +30,11 @@ app.post('/account_session', async (req: Request, res: Response) => {
         },
         balances: {
           enabled: true,
+          features: {
+            edit_payout_schedule: false,
+            instant_payouts: false,
+            standard_payouts: false,  
+          }
         },
       },
     });

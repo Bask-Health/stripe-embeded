@@ -7,7 +7,6 @@
     "node": ">=22 <23"
   },
   "scripts": {
-    "dev": "yarn clean && yarn webpack && yarn copy-assets && yarn tsc && vercel dev",
     "build": "yarn clean && yarn webpack && yarn compile && yarn copy-assets",
     "clean": "rimraf dist",
     "webpack": "npx webpack",

@@ -21,6 +21,8 @@ export default async function handler(req: any, res: any) {
       },
     });
 
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Or a specific domain
+    res.setHeader('Access-Control-Allow-Methods', 'POST');
     res.json({
       client_secret: accountSession.client_secret,
     });

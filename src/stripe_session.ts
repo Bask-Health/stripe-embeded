@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import jwt, { JwtPayload } from "jsonwebtoken"; // Import the jsonwebtoken library
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2024-06-20",
@@ -7,8 +7,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 
 export default async function handler(req: any, res: any) {
   try {
-    // Get the token from the cookies
-    const cookies: string = req.headers.cookie || ""; // Explicitly define cookies as a string
+    // Read the token from cookies
+    const cookies: string = req.headers.cookie || "";
     const cookieObj = Object.fromEntries(
       cookies.split("; ").map((cookie: string) => {
         const [key, value] = cookie.split("=");
@@ -21,16 +21,16 @@ export default async function handler(req: any, res: any) {
       return res.status(400).send({ error: "Auth token is required in cookies" });
     }
 
-    // Decode the JWT token using the secret
-    const secret = process.env.JWT_SECRET_KEY; // Ensure this is defined in your env variables
+    // Validate and decode the token
+    const secret = process.env.JWT_SECRET_KEY;
     if (!secret) {
-      return res.status(500).send({ error: "JWT secret is not configured" });
+      return res.status(500).send({ error: "Server configuration error" });
     }
 
     let decoded: JwtPayload;
     try {
       decoded = jwt.verify(token, secret) as JwtPayload;
-    } catch (error) {
+    } catch (err) {
       return res.status(401).send({ error: "Invalid or expired token" });
     }
 
@@ -42,27 +42,18 @@ export default async function handler(req: any, res: any) {
         .send({ error: "Token must contain stripe_account field" });
     }
 
-    // Create the Stripe account session using the decoded stripe_account
+    // Create the Stripe account session
     const accountSession = await stripe.accountSessions.create({
       account: stripeAccount,
       components: {
-        payments: {
-          enabled: true,
-        },
-        payouts: {
-          enabled: true,
-        },
+        payments: { enabled: true },
+        payouts: { enabled: true },
       },
     });
 
-    res.json({
-      client_secret: accountSession.client_secret,
-    });
+    res.json({ client_secret: accountSession.client_secret });
   } catch (error: any) {
-    console.error(
-      "An error occurred when calling the Stripe API to create an account session",
-      error
-    );
+    console.error("Error in /api/stripe_session:", error.message);
     res.status(500).send({ error: error.message });
   }
 }

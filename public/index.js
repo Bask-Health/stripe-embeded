@@ -1,29 +1,9 @@
 import { loadConnectAndInitialize } from "@stripe/connect-js";
 
-// Utility function to extract query parameters
-const getQueryParam = (param) => {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(param);
-};
-
 const instance = loadConnectAndInitialize({
   publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
   fetchClientSecret: async () => {
-    // Get the token from the query string
-    const token = getQueryParam("token");
-    if (!token) {
-      console.error("Token is missing in the URL query parameters.");
-      document.querySelector("#container").setAttribute("hidden", "");
-      document.querySelector("#error").removeAttribute("hidden");
-      return undefined;
-    }
-
-    // Pass the token to the API endpoint
-    const response = await fetch(
-      `${window.location.origin}/api/account_session?token=${encodeURIComponent(token)}`,
-      { method: "GET" }
-    );
-
+    const response = await fetch(`${window.location.origin}/api/account_session`, { method: "POST" });
     if (!response.ok) {
       const { error } = await response.json();
       document.querySelector("#container").setAttribute("hidden", "");
@@ -31,7 +11,6 @@ const instance = loadConnectAndInitialize({
       console.error("Error fetching client secret:", error);
       return undefined;
     }
-
     const { client_secret: clientSecret } = await response.json();
     document.querySelector("#container").removeAttribute("hidden");
     document.querySelector("#error").setAttribute("hidden", "");

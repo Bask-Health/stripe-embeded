@@ -1,7 +1,6 @@
 {
   "version": 2,
   "routes": [
-    { "src": "/redirect", "dest": "/api/redirect" },
     { "src": "/api/(.*)", "dest": "/api/$1" }
   ]
 }

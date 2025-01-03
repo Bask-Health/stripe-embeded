@@ -3,7 +3,6 @@ import Stripe from "stripe";
 
 // dotenv.config();
 
-
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2024-06-20",
 });
@@ -13,22 +12,11 @@ export default async function handler(req: any, res: any) {
     const accountSession = await stripe.accountSessions.create({
       account: process.env.STRIPE_ACCOUNT || "", // Replace with your connected account ID
       components: {
-        account_onboarding: {
-          enabled: true,
-        },
         payments: {
           enabled: true,
         },
         payouts: {
           enabled: true,
-        },
-        balances: {
-          enabled: true,
-          features: {
-            edit_payout_schedule: false,
-            instant_payouts: false,
-            standard_payouts: false,
-          },
         },
       },
     });

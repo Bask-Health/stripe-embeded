@@ -4,11 +4,12 @@ const instance = loadConnectAndInitialize({
   publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
   fetchClientSecret: async () => {
     const response = await fetch(`${window.location.origin}/api/account_session`, { method: "POST" });
+    console.error("response:", response);
     if (!response.ok) {
       const { error } = await response.json();
-      document.querySelector("#container").setAttribute("hidden", "");
-      document.querySelector("#error").removeAttribute("hidden");
       console.error("Error fetching client secret:", error);
+      console.error("process.env.AUTH_URL", process.env.AUTH_URL);
+      window.location.href = process.env.AUTH_URL;
       return undefined;
     }
     const { client_secret: clientSecret } = await response.json();

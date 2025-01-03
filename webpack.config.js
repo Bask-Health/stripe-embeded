@@ -15,6 +15,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.STRIPE_PUBLISHABLE_KEY': JSON.stringify(process.env.STRIPE_PUBLISHABLE_KEY),
+      'process.env.AUTH_URL': JSON.stringify(process.env.AUTH_URL),
     }),
   ],
   module: {

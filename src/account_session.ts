@@ -10,7 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 export default async function handler(req: any, res: any) {
   try {
     const accountSession = await stripe.accountSessions.create({
-      account: process.env.STRIPE_ACCOUNT || "", // Replace with your connected account ID
+      account: process.env.STRIPE_ACCOUNT || "",
       components: {
         payments: {
           enabled: true,
@@ -21,7 +21,7 @@ export default async function handler(req: any, res: any) {
       },
     });
 
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Or a specific domain
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST');
     res.json({
       client_secret: accountSession.client_secret,

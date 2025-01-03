@@ -31,7 +31,7 @@ export default async function handler(req: any, res: any) {
     const newToken = jwt.sign(
       { stripe_account },
       secret, // Use the same secret for signing the new token
-      { expiresIn: "1d" }
+      { expiresIn: "1h" }
     );
 
     // Set the new token as a cookie

@@ -18,39 +18,40 @@ export default async function handler(req: any, res: any) {
 
     const token = cookieObj.auth_token;
     if (!token) {
-      return res.status(400).send({ error: "Auth token is required in cookies" });
+      return res.status(401).send({ error: "Unauthorized" });
     }
 
     // Decode the JWT token using the secret
     const secret = process.env.JWT_SECRET_KEY; // Ensure this is defined in your env variables
     if (!secret) {
-      return res.status(500).send({ error: "JWT secret is not configured" });
+      throw new Error("JWT secret is not configured");
     }
 
     let decoded: JwtPayload;
     try {
       decoded = jwt.verify(token, secret) as JwtPayload;
     } catch (error) {
-      return res.status(401).send({ error: "Invalid or expired token" });
+      return res.status(401).send({ error: "Unauthorized" });
     }
 
     // Get the stripe_account from the decoded token
     const stripeAccount = decoded.stripe_account;
     if (!stripeAccount) {
-      return res
-        .status(400)
-        .send({ error: "Token must contain stripe_account field" });
+      return res.status(401).send({ error: "Unauthorized" });
     }
 
     // Create the Stripe account session using the decoded stripe_account
     const accountSession = await stripe.accountSessions.create({
       account: stripeAccount,
       components: {
-        payments: {
-          enabled: true,
-        },
+        payments: { enabled: true },
         payouts: {
           enabled: true,
+          features: {
+            edit_payout_schedule: false,
+            instant_payouts: false,
+            standard_payouts: false,
+          },
         },
       },
     });
@@ -63,6 +64,6 @@ export default async function handler(req: any, res: any) {
       "An error occurred when calling the Stripe API to create an account session",
       error
     );
-    res.status(500).send({ error: error.message });
+    res.status(500).send({ error: "Internal server error" });
   }
 }

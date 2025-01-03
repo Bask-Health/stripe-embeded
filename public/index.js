@@ -3,7 +3,7 @@ import { loadConnectAndInitialize } from "@stripe/connect-js";
 const instance = loadConnectAndInitialize({
   publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
   fetchClientSecret: async () => {
-    const response = await fetch(`${window.location.origin}/api/account_session`, { method: "POST" });
+    const response = await fetch(`${window.location.origin}/api/account_session`, { method: "GET" });
     if (!response.ok) {
       const { error } = await response.json();
       document.querySelector("#container").setAttribute("hidden", "");

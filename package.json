@@ -7,10 +7,9 @@
     "node": ">=22 <23"
   },
   "scripts": {
-    "build": "yarn clean && yarn webpack && yarn compile && yarn copy-assets",
+    "build": "yarn clean && yarn webpack && yarn copy-assets",
     "clean": "rimraf dist",
     "webpack": "npx webpack",
-    "compile": "tsc",
     "copy-assets": "mkdirp dist && cp public/style.css dist/style.css && cp public/*.html dist/",
     "prebuild": "yarn clean",
     "postbuild": "yarn copy-assets",
